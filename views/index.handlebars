@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="../css/styles.css">
+
+<div class='article'>
+    {{#each this}}
+    <div>
+        <h3>
+            <a href='{{link}}'>{{title}}</a>
+        </h3>
+        <a href='{{link}}'>
+            <img src='{{img}}' alt='article-image' />
+        </a>
+        <p>{{summary}}</p>
+    </div>
+    {{/each}} {{!--
+    <div id='comment-box'>
+        <textarea rows='4' cols='50'>Hello</textarea>
+    </div> --}}
+</div>

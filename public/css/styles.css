@@ -1,0 +1,28 @@
+body{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+h1 {
+    text-align: center;
+}
+p {
+    font-size: 15px;
+}
+
+img {
+    width:150px;
+    height: 150px;
+}
+
+div.article{
+    display:inline-block;
+    width: 500px;
+}
+
+div.article::before {
+    padding-left: 30px;
+}
+
+a{
+    text-decoration: none;
+}
