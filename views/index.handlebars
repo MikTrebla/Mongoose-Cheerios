@@ -1,15 +1,18 @@
 <link rel="stylesheet" href="../css/styles.css">
 
-<div class='article'>
+<div class='article-continer'>
     {{#each this}}
-    <div>
+    <div class='article'>
         <h3>
             <a href='{{link}}'>{{title}}</a>
         </h3>
-        <a href='{{link}}'>
-            <img src='{{img}}' alt='article-image' />
-        </a>
-        <p>{{summary}}</p>
+        <div class='image-summary'>
+            <a href='{{link}}'>
+                <img src='{{img}}' alt='article-image' />
+            </a>
+
+            <p>{{summary}}</p>
+        </div>
     </div>
     {{/each}} {{!--
     <div id='comment-box'>
