@@ -30,61 +30,73 @@ db.on('error', error => {
 })
 
 
+
+
+function scrapeData () {
+    request('https://kotaku.com/', (error, response, html) => {
+        db.scrapedData.drop();
+        let $ = cheerio.load(html);
+        let results = [];
+        $('article.postlist__item').each((i, element) => {
+            let title = $(element).find('h1').children().text();
+            let link = $(element).children().find('a.js_entry-link').attr('href');
+            let img = $(element).children().find('source').data('srcset');
+            let summary = $(element).children().find('p').text();
+    
+            results.push({
+                link: link,
+                title: title,
+                summary: summary,
+                img: img,
+            });
+        });
+        console.log(results);
+        for (var i = 0; i < results.length; i++) {
+            let obj = results[i];
+            if (!results[i].img && results[i].title) {
+                db.scrapedData.insert({
+                    link: obj.link,
+                    title: obj.title,
+                    summary: obj.summary,
+                    img: '/images/download.png'
+                });
+            } else if (!results[i].title && results[i].img) {
+                let str = obj.summary;
+                let newTitle = str.substr(0, 10);
+                db.scrapedData.insert({
+                    link: obj.link,
+                    summary: obj.summary,
+                    title: newTitle + '...',
+                    img: obj.img
+                });
+            } else if (!results[i].title && !results[i].img) {
+                let str = obj.summary;
+                let newTitle = str.substr(0, 20);
+                db.scrapedData.insert({
+                    link: obj.link,
+                    summary: obj.summary,
+                    title: newTitle + '...',
+                    img: '/images/download.png'
+                });
+            } else {
+                db.scrapedData.insert({
+                    link: obj.link,
+                    title: obj.title,
+                    summary: obj.summary,
+                    img: obj.img
+                });
+            }
+        };
+    });
+    
+}
+
 app.get('/', (req, res) => {
+    scrapeData();
     db.scrapedData.find({}, (err, results) => {
         res.render('index', results);
     })
 });
-
-request('https://kotaku.com/', (error, response, html) => {
-    let $ = cheerio.load(html);
-    let results = [];
-    $('article.postlist__item').each((i, element) => {
-        let title = $(element).find('h1').children().text();
-        let link = $(element).children().find('a.js_entry-link').attr('href');
-        let img = $(element).children().find('source').data('srcset');
-        let summary = $(element).children().find('p').text();
-
-        results.push({
-            link: link,
-            title: title,
-            summary: summary,
-            img: img
-        });
-    });
-    console.log(results);
-    for (var i = 0; i < results.length; i++) {
-        let obj = results[i];
-        if (!results[i].title && results[i].img) {
-            db.scrapedData.insert({
-                link: obj.link,
-                title: 'Article',
-                summary: obj.summary,
-                img: obj.img
-            });
-        } else if (!results[i].img && results[i].title) {
-            db.scrapedData.insert({
-                link: obj.link,
-                title: obj.title,
-                summary: obj.summary,
-            });
-        } else if ((results[i].img === undefined || results[i].img === null) && results[i].title === '') {
-            db.scrapedData.insert({
-                link: obj.link,
-                title: 'Article',
-                summary: obj.summary,
-            });
-        } else {
-            db.scrapedData.insert({
-                link: obj.link,
-                title: obj.title,
-                summary: obj.summary,
-                img: obj.img
-            });
-        }
-    };
-});
-
 
 app.listen(3000, function () {
     console.log('App running on port 3000!');

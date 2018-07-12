@@ -1,21 +1,37 @@
 <link rel="stylesheet" href="../css/styles.css">
 
-<div class='article-continer'>
+<div class='article-container'>
     {{#each this}}
     <div class='article'>
-        <h3>
-            <a href='{{link}}'>{{title}}</a>
-        </h3>
-        <div class='image-summary'>
-            <a href='{{link}}'>
-                <img src='{{img}}' alt='article-image' />
-            </a>
+        <div class='title-img'>
+            <h3>
+                <a href='{{link}}'>{{title}}</a>
+                <br>
+                <a href='{{link}}'>
+                    <img src='{{img}}' alt='article-image' />
+                </a>
+            </h3>
+        </div>
 
+        <div class='summary'>
             <p>{{summary}}</p>
         </div>
+        <br>
+        <button class='comment'>Leave a comment!</button>
+
     </div>
-    {{/each}} {{!--
-    <div id='comment-box'>
-        <textarea rows='4' cols='50'>Hello</textarea>
-    </div> --}}
+    {{/each}}
+</div>
+<div class='comment-container'>
+    <div class='box-text'>
+        <h2>User Comments</h2>
+        <div class='user-comments'>
+            <p>
+
+            </p>
+        </div>
+        <h2>Comment Box</h2>
+        <textarea class='box'></textarea>
+        <button type='submit'>Submit Comment</button>
+    </div>
 </div>
