@@ -3,37 +3,42 @@
 <div class='article-container'>
     {{#each this}}
     <div class='article'>
-        <div class='title-img'>
-            <h3>
+        <div class='title'>
+            <h2>
                 <a href='{{link}}'>{{title}}</a>
-                <br>
-                <a href='{{link}}'>
-                    <img src='{{img}}' alt='article-image' />
-                </a>
-            </h3>
-        </div>
-
-        <div class='summary'>
-            <p>{{summary}}</p>
+            </h2>
         </div>
         <br>
-        <button class='comment' id='{{_id}}'>Leave a comment!</button>
- 
+        <div class='image-summary'>
+            <a href='{{link}}'>
+                <img src='{{img}}' alt='article-image' />
+            </a>
+            <p>
+                {{summary}}
+            </p>
+        </div>
+
+        <div class='comment-div'>
+            <button class='note' id='{{_id}}'>Create Note</button>
+            <button class='save' id='{{_id}}'>Save Article</button>
+        </div>
+        <br>
     </div>
     {{/each}}
 </div>
+{{!--
 <div class='comment-container'>
     <div class='box-text'>
         <h2>User Comments</h2>
         <div class='user-comments'>
             <p>
-                
+
             </p>
         </div>
         <h2>Comment Box</h2>
         <textarea class='box'></textarea>
-        
+
         <button type='submit'>Submit Comment</button>
-        
-    </div>
+
+    </div> --}}
 </div>

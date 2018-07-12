@@ -49,13 +49,24 @@ app.get('/scrape', (req, res) => {
             results.link = $(this).children().find('a.js_entry-link').attr('href');
             results.img = $(this).children().find('source').data('srcset');
             results.summary = $(this).children().find('p').text();
+            if (!results.title) {
+                var str = results.summary;
+                var title = str.substr(0,20)+'...'
+                results.push({
+                    link: results.link,
+                    title:  title,
+                    summary: results.summary,
+                    img: results.img,
+                });
+            } else {
+                results.push({
+                    link: results.link,
+                    title: results.title,
+                    summary: results.summary,
+                    img: results.img,
+                });
+            }
 
-            results.push({
-                link: results.link,
-                title: results.title,
-                summary: results.summary,
-                img: results.img,
-            });
         });
         console.log(results);
 
@@ -79,14 +90,14 @@ app.get('/', (req, res) => {
 
 app.get('/article/:id', (req, res) => {
     db.Article.findOne({
-        _id: req.params.id
-    }).populate('note')
-    .then(dbArticle => {
-        res.json(dbArticle);
-    }).catch(err => {
-        res.json(err);
-    });
-    
+            _id: req.params.id
+        }).populate('note')
+        .then(dbArticle => {
+            res.json(dbArticle);
+        }).catch(err => {
+            res.json(err);
+        });
+
 });
 
 
