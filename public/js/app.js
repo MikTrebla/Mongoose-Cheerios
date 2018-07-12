@@ -1,12 +1,16 @@
-$(document).ready(function () {
+$(document).ready(() => {
+
+    $.get('/', data => {}).then(result => {
+        console.log('stuff');
+    })
 
     $('#scrape-website').on('click', function (event) {
         event.preventDefault();
-        $.get('/scrape', data => {
+        $.get('/scrape', data => {}).then(result => {
+            // console.log(result);
+            console.log('reload dammit')
 
-        }).then(result => {
-            console.log(result);
-            window.location.href = '/';
+            window.location.reload();
         })
     })
 
@@ -20,6 +24,7 @@ $(document).ready(function () {
         $.get('/article/' + id, data => {
 
         }).then(result => {
+            console.log(result);
             // window.location.href = '/';
         })
     })
