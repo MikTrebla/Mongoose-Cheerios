@@ -56,3 +56,9 @@ div.image-summary {
 div.comment-box {
     display: inline-block;
 }
+
+
+#scrape-website {
+    text-align: center;
+    /* float:left; */
+}

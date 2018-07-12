@@ -31,8 +31,7 @@ db.on('error', error => {
 
 
 
-
-function scrapeData () {
+app.get('/scrape', (req, res) => {
     request('https://kotaku.com/', (error, response, html) => {
         db.scrapedData.drop();
         let $ = cheerio.load(html);
@@ -42,7 +41,7 @@ function scrapeData () {
             let link = $(element).children().find('a.js_entry-link').attr('href');
             let img = $(element).children().find('source').data('srcset');
             let summary = $(element).children().find('p').text();
-    
+
             results.push({
                 link: link,
                 title: title,
@@ -88,15 +87,32 @@ function scrapeData () {
             }
         };
     });
-    
-}
+    res.send('Scraped')
+})
+
+
+
 
 app.get('/', (req, res) => {
-    scrapeData();
     db.scrapedData.find({}, (err, results) => {
         res.render('index', results);
-    })
+    });
 });
+
+app.get('/article/:id', (req, res) => {
+    db.scrapedData.find({
+        _id: 'ObjectId("'+req.params.id+'")'
+    }, (err, results) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log('uh' + results);
+            res.render('index', results);
+        }
+    });
+});
+
+
 
 app.listen(3000, function () {
     console.log('App running on port 3000!');
