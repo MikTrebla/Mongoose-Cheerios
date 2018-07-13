@@ -134,6 +134,6 @@ app.post('/note/:id', (req, res) => {
 // })
 
 
-// app.listen(PORT, function () {
-//     console.log('App running on port ' + PORT + '!');
-// });
+app.listen(MONGODB_URI, function () {
+    console.log('App running on port ' + PORT + '!');
+});
