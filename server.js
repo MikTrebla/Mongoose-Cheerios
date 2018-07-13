@@ -126,7 +126,7 @@ app.post('/api/savedarticles/:id', (req, res) => {
         db.Save.create({
             img: results[0].img,
             title: results[0].title,
-            summary: results[0].body,
+            summary: results[0].summary,
             link: results[0].link
         }).then(dbSave => {
             // console.log(dbSave);
