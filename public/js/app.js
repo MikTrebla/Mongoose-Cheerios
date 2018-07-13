@@ -17,34 +17,38 @@ $(document).ready(() => {
         var id = $(this).attr('id');
         $('#insert-title').val('');
         $('#insert-body').val('');
-        modal.css({
-            'display': 'block'
-        });
+
+        
         $.get(`/note/${id}`).then(function (data) {
+
             if (data) {
+                console.log(data);
                 $('#insert-title').val(data.title);
                 $('#insert-body').val(data.body);
             }
-        });
-
-    });
-
-    $('.submit-note').on('click', event => {
-        event.preventDefault();
-        var id = $('.submit-note').attr('id');
-        $.ajax({
-            method: 'POST',
-            url: `/note/${id}`,
-            data: {
-                title: $('#insert-title').val(),
-                body: $('#insert-body').val()
-            }
-        }).then(function (data) {
             modal.css({
-                'display': 'none'
+                'display': 'block'
             });
-        })
+            $('.submit-note').on('click', function(event) {
+                event.preventDefault();
+                // var id = $(this).attr('id');
+                $.ajax({
+                    method: 'POST',
+                    url: `/note/${id}`,
+                    data: {
+                        title: $('#insert-title').val(),
+                        body: $('#insert-body').val()
+                    }
+                }).then(function (data) {
+                    modal.css({
+                        'display': 'none'
+                    });
+                })
+            });
+        });
+       
     });
+
     $('.close').on('click', event => {
         event.preventDefault();
         modal.css({
@@ -65,7 +69,11 @@ $(document).ready(() => {
         $.post(`/api/savedarticles/${id}`, data => {
 
         }).then(results => {
-            alert('Article was saved.');
+            if (results) {
+                return alert('Article was saved.');
+
+            }
+
         })
     });
 

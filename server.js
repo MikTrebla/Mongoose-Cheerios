@@ -92,7 +92,9 @@ app.get('/note/:id', (req, res) => {
 });
 
 app.post('/note/:id', (req, res) => {
+    console.log(req.body);
     db.Note.create(req.body).then(dbNote => {
+        console.log(dbNote);
         return db.Save.findOneAndUpdate({
             _id: req.params.id
         }, {
@@ -101,6 +103,7 @@ app.post('/note/:id', (req, res) => {
             new: true
         });
     }).then(dbArticle => {
+        // console.log(dbArticle);
         res.send('note saved');
     }).catch(err => {
         res.json(err);
