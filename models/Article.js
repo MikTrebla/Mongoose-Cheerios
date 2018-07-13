@@ -5,7 +5,6 @@ var Schema = mongoose.Schema;
 var ArticleSchema = new Schema({
   title: {
     type: String,
-    default: 'HELLO',
   },
   link: {
     type: String,

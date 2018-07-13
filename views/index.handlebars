@@ -13,11 +13,21 @@
             <a href='{{link}}'>
                 <img src='{{img}}' alt='article-image' />
             </a>
-            <p>
+            <p class = 'summary'>
                 {{summary}}
             </p>
         </div>
-
+        <div id='myModal' class='modal'>
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                Title
+                <input id = 'insert-title' type='text'>
+                <br>
+                Note
+                <textarea id = 'insert-body'></textarea>
+                <button id = 'submit-note' type='submit'>Save Note</button>
+            </div>
+        </div>
         <div class='comment-div'>
             <button class='note' id='{{_id}}'>Create Note</button>
             <button class='save' id='{{_id}}'>Save Article</button>
@@ -26,19 +36,4 @@
     </div>
     {{/each}}
 </div>
-{{!--
-<div class='comment-container'>
-    <div class='box-text'>
-        <h2>User Comments</h2>
-        <div class='user-comments'>
-            <p>
-
-            </p>
-        </div>
-        <h2>Comment Box</h2>
-        <textarea class='box'></textarea>
-
-        <button type='submit'>Submit Comment</button>
-
-    </div> --}}
 </div>

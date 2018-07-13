@@ -31,15 +31,14 @@ mongoose.connect("mongodb://localhost/mongoose-cheerios");
 const db = require("./models");
 
 
-// db.on('error', error => {
-//     console.log('Database Error:', error);
-// })
-
-
+app.get('/', (req, res) => {
+    db.Article.find({}, (err, results) => {
+        res.render('index', results);
+    });
+});
 
 app.get('/scrape', (req, res) => {
     axios.get('https://kotaku.com/').then(response => {
-        console.log('hit');
         let $ = cheerio.load(response.data);
         let results = [];
 
@@ -51,10 +50,10 @@ app.get('/scrape', (req, res) => {
             results.summary = $(this).children().find('p').text();
             if (!results.title) {
                 var str = results.summary;
-                var title = str.substr(0,20)+'...'
+                var title = str.substr(0, 50) + '...'
                 results.push({
                     link: results.link,
-                    title:  title,
+                    title: title,
                     summary: results.summary,
                     img: results.img,
                 });
@@ -79,27 +78,41 @@ app.get('/scrape', (req, res) => {
     res.send('success');
 })
 
-
-
-
-app.get('/', (req, res) => {
-    db.Article.find({}, (err, results) => {
-        res.render('index', results);
+app.post('/note/:id', (req, res) => {
+    db.Note.create(req.body).then(dbNote => {
+        return db.Article.findOneAndUpdate({
+            id: req.params.id,
+            note: dbNote._id,
+            new: true
+        })
+    }).then(dbArticle => {
+        res.send('note saved');
+        // res.json(dbArticle);
+    }).catch(err => {
+        res.json(err);
     });
-});
+})
 
-app.get('/article/:id', (req, res) => {
-    db.Article.findOne({
-            _id: req.params.id
-        }).populate('note')
-        .then(dbArticle => {
-            res.json(dbArticle);
-        }).catch(err => {
-            res.json(err);
-        });
 
-});
 
+
+
+
+// app.get('/savedarticles', (req, res) => {
+//     db.Save.find({})
+//     .populate('Article').
+//     then(dbSave => {
+//         res.send(dbSave);
+//     });
+// });
+
+// app.post('/api/savedarticles/:id', (req, res) => {
+//     db.Save.create({
+//         id: req.params.id
+//     }).then(dbSave => {
+//         res.send('save success');
+//     })
+// })
 
 
 app.listen(PORT, function () {
