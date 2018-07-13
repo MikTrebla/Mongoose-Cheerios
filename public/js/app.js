@@ -51,14 +51,18 @@ $(document).ready(() => {
     $('.view-edit').on('click', function (event) {
         event.preventDefault();
         var id = $(this).attr('id');
-        modal.css({
-            'display': 'block'
-        });
+       
         $.get('/note/' + id).then(function (data) {
             console.log(data);
-          
-            $('#insert-title').val(data.title);
-            $('#insert-body').val(data.body);
+            // modal.css({
+            //     'display': 'block'
+            // });
+            // if (data.note) {
+              
+            //     $('#insert-title').val(data.title);
+            //     $('#insert-body').val(data.body);
+            // }
+
         });
 
     })

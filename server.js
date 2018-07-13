@@ -81,19 +81,13 @@ app.get('/scrape', (req, res) => {
 
 app.get('/note/:id', (req, res) => {
     db.Article.findOne({
-        _id: req.params.id
-    }).then(dbArticle => {
-        return db.Article.findOne({
-            _id: dbArticle.note
-        });
-
-    }).then(dbNote => {
-        console.log(dbNote);
-        res.send('Here you go');
-        // res.json(dbNote);
-    }).catch(err => {
-        res.json(err);
-    })
+            _id: req.params.id
+        }).populate('note')
+        .then(dbArticle => {
+            res.render('modalview',dbArticle.note);
+        }).catch(err => {
+            res.json(err);
+        })
 })
 app.post('/note/:id', (req, res) => {
     db.Note.create(req.body).then(dbNote => {
@@ -106,7 +100,6 @@ app.post('/note/:id', (req, res) => {
         });
     }).then(dbArticle => {
         res.send('note saved');
-        // res.json(dbArticle);
     }).catch(err => {
         res.json(err);
     });
