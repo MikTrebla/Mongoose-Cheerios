@@ -4,7 +4,7 @@ $(document).ready(() => {
         event.preventDefault();
         $.get('/scrape', data => {}).then(result => {
             if (result) {
-                window.location.reload();
+                window.location.href = '/';
             }
         })
     });
@@ -60,7 +60,6 @@ $(document).ready(() => {
     $('.save').on('click', function (event) {
         event.preventDefault();
         var id = $(this).attr('id');
-        console.log(id);
 
         $.post('/api/savedarticles/' + id, data => {
 
@@ -71,7 +70,17 @@ $(document).ready(() => {
 
 
 
-
+    $('.delete').on('click', function (event) {
+        var id = $(this).attr('id');
+        $.ajax({
+            method: 'DELETE',
+            url: `/api/savedarticles/${id}`
+        }).then(result => {
+            if (result) {
+                window.location.href = '/savedarticles';
+            }
+        })
+    })
 
 
 

@@ -66,11 +66,20 @@ a:hover {
     color: rgb(4, 102, 69);
 }
 
-.button-group {
+.button-group{
+    width: 400px;
+    display: grid;
+    margin : 0 auto;
+    grid-template-columns: 33% 33% 33%;
+}
+.button{
     height: 40px;
     width: 100px;
-    display: block;
-    margin: 0 auto;
+    /* margin: auto; */
+    /* display: inline; */
+    /* float:left; */
+   
+
 }
 
 #homebtn {

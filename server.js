@@ -111,21 +111,40 @@ app.post('/note/:id', (req, res) => {
 
 
 
-// app.get('/savedarticles', (req, res) => {
-//     db.Save.find({})
-//     .populate('Article').
-//     then(dbSave => {
-//         res.send(dbSave);
-//     });
-// });
+app.get('/savedarticles', (req, res) => {
+    db.Save.find({}).then(dbSave => {
+        res.render('saved', dbSave);
+    });
+});
 
-// app.post('/api/savedarticles/:id', (req, res) => {
-//     db.Save.create({
-//         id: req.params.id
-//     }).then(dbSave => {
-//         res.send('save success');
-//     })
-// })
+
+app.post('/api/savedarticles/:id', (req, res) => {
+    db.Article.find({
+        _id: req.params.id
+    }).then(results => {
+        console.log(results);
+        db.Save.create({
+            img: results[0].img,
+            title: results[0].title,
+            summary: results[0].body,
+            link: results[0].link
+        }).then(dbSave => {
+            // console.log(dbSave);
+            res.json(dbSave);
+        })
+    }).catch(err => {
+        res.json(err);
+    })
+
+})
+
+app.delete('/api/savedarticles/:id', (req, res) => {
+    db.Save.deleteOne({
+        _id: req.params.id
+    }).then(result => {
+        res.json(result)
+    })
+})
 
 
 app.listen(PORT, function () {
