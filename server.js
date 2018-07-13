@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(logger("dev"));
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoose-cheerios";
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 // mongoose.connect("mongodb://localhost/mongoose-cheerios");
