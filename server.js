@@ -1,11 +1,10 @@
 const cheerio = require('cheerio');
 const axios = require('axios');
-// const request = require('request');
 const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 
 const app = express();
@@ -25,16 +24,19 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(logger("dev"));
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoose-cheerios";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoose-cheerios";
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
-// mongoose.connect("mongodb://localhost/mongoose-cheerios");
 const db = require("./models");
 
 
 app.get('/', (req, res) => {
     db.Article.find({}, (err, results) => {
-        res.render('index', results);
+        if (err) {
+            console.log(err)
+        } else {
+            res.render('index', results);
+        }
     });
 });
 
@@ -44,7 +46,6 @@ app.get('/scrape', (req, res) => {
         let results = [];
 
         $('article.postlist__item').each(function (i, element) {
-            // console.log('hit2');
             results.title = $(this).find('h1').children().text();
             results.link = $(this).children().find('a.js_entry-link').attr('href');
             results.img = $(this).children().find('source').data('srcset');
@@ -68,15 +69,14 @@ app.get('/scrape', (req, res) => {
             }
 
         });
-        console.log(results);
 
         db.Article.create(results).then(dbArticle => {
             console.log(dbArticle);
+            res.send('Scraped');
         }).catch(err => {
             console.log(err);
         });
     });
-    res.send('success');
 })
 
 app.get('/note/:id', (req, res) => {

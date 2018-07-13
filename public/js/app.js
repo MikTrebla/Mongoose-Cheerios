@@ -1,9 +1,11 @@
 $(document).ready(() => {
 
-    $('#scrapebtn').on('click', event => {
+    $(document).on('click', '#scrapebtn', event => {
         event.preventDefault();
         $.get('/scrape', data => {}).then(result => {
-            window.location.reload();
+            if (result) {
+                window.location.reload();
+            }
         })
     });
 
@@ -15,7 +17,6 @@ $(document).ready(() => {
         id = $(this).attr('id');
         $('#insert-title').val('');
         $('#insert-body').val('');
-        console.log(id);
         modal.css({
             'display': 'block'
         });
@@ -35,12 +36,9 @@ $(document).ready(() => {
                     body: $('#insert-body').val()
                 }
             }).then(function (data) {
-                console.log(data);
                 modal.css({
                     'display': 'none'
                 });
-               
-                // window.location.reload();
             })
         });
     });
