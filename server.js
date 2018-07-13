@@ -84,11 +84,12 @@ app.get('/note/:id', (req, res) => {
             _id: req.params.id
         }).populate('note')
         .then(dbArticle => {
-            res.render('modalview',dbArticle.note);
+            res.json(dbArticle.note);
         }).catch(err => {
             res.json(err);
         })
-})
+});
+
 app.post('/note/:id', (req, res) => {
     db.Note.create(req.body).then(dbNote => {
         return db.Article.findOneAndUpdate({

@@ -13,9 +13,17 @@ $(document).ready(() => {
     $('.note').on('click', function (event) {
         event.preventDefault();
         id = $(this).attr('id');
+        $('#insert-title').val('');
+        $('#insert-body').val('');
         console.log(id);
         modal.css({
             'display': 'block'
+        });
+        $.get('/note/' + id).then(function (data) {
+            if (data) {
+                $('#insert-title').val(data.title);
+                $('#insert-body').val(data.body);
+            }
         });
         $('#submit-note').on('click', event => {
             event.preventDefault();
@@ -31,8 +39,7 @@ $(document).ready(() => {
                 modal.css({
                     'display': 'none'
                 });
-                $('#insert-title').val('');
-                $('#insert-body').val('');
+               
                 // window.location.reload();
             })
         });
@@ -48,24 +55,7 @@ $(document).ready(() => {
 
 
 
-    $('.view-edit').on('click', function (event) {
-        event.preventDefault();
-        var id = $(this).attr('id');
-       
-        $.get('/note/' + id).then(function (data) {
-            console.log(data);
-            // modal.css({
-            //     'display': 'block'
-            // });
-            // if (data.note) {
-              
-            //     $('#insert-title').val(data.title);
-            //     $('#insert-body').val(data.body);
-            // }
 
-        });
-
-    })
 
 
     //not functional - make sure to come back and fix
