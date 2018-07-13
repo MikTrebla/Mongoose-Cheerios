@@ -3,7 +3,7 @@
 }
 
 body {
-    font-family: 'Catamaran', sans-serif;
+    font-family: 'Roboto', sans-serif;
     background: linear-gradient(rgba(65, 113, 218, .15), rgba(65, 113, 218, .15)), url('../images/background2.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -14,16 +14,21 @@ body {
 h1 {
     text-align: center;
     font-size: 40px;
-    color: rgb(77, 39, 245)
+    color: rgb(77, 39, 245);
+    text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
+
 }
 
 h2 {
     font-size: 25px;
+    text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
+
 }
 
 p {
     font-size: 18px;
-    color: rgb(75, 177, 236);
+    color: rgb(147, 215, 255);
+     text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
 }
 
 img {
@@ -56,6 +61,9 @@ a {
     text-decoration: none;
     display: inline-block;
     color: rgb(16, 221, 204)
+}
+a:hover { 
+    color: rgb(4, 102, 69);
 }
 
 .button-group {

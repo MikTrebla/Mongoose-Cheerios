@@ -13,7 +13,7 @@
             <a href='{{link}}'>
                 <img src='{{img}}' alt='article-image' />
             </a>
-            <p class = 'summary'>
+            <p class='summary'>
                 {{summary}}
             </p>
         </div>
@@ -21,15 +21,15 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 Title
-                <input id = 'insert-title' type='text'>
-                <br>
-                Note
-                <textarea id = 'insert-body'></textarea>
-                <button id = 'submit-note' type='submit'>Save Note</button>
+                <input id='insert-title' type='text'>
+                <br> Note
+                <textarea id='insert-body'></textarea>
+                <button id='submit-note' type='submit'>Save Note</button>
             </div>
         </div>
         <div class='comment-div'>
             <button class='note' id='{{_id}}'>Create Note</button>
+            <button class='view-edit' id='{{id}}'>View/Edit Note</button>
             <button class='save' id='{{_id}}'>Save Article</button>
         </div>
         <br>

@@ -11,24 +11,20 @@ $(document).ready(() => {
     var modal = $('#myModal');
 
     $('.note').on('click', function (event) {
+        event.preventDefault();
         id = $(this).attr('id');
         console.log(id);
-        event.preventDefault();
         modal.css({
             'display': 'block'
         });
         $('#submit-note').on('click', event => {
             event.preventDefault();
-            var noteObj = {
-                title: $('#insert-title').val().trim(),
-                body: $('#insert-body').val().trim()
-            }
             $.ajax({
                 method: 'POST',
                 url: '/note/' + id,
                 data: {
-                    title: $('#insert-title').val().trim(),
-                    body: $('#insert-body').val().trim()
+                    title: $('#insert-title').val(),
+                    body: $('#insert-body').val()
                 }
             }).then(function (data) {
                 console.log(data);
@@ -37,7 +33,7 @@ $(document).ready(() => {
                 });
                 $('#insert-title').val('');
                 $('#insert-body').val('');
-                // alert('note added');
+                // window.location.reload();
             })
         });
     });
@@ -52,7 +48,20 @@ $(document).ready(() => {
 
 
 
+    $('.view-edit').on('click', function (event) {
+        event.preventDefault();
+        var id = $(this).attr('id');
+        modal.css({
+            'display': 'block'
+        });
+        $.get('/note/' + id).then(function (data) {
+            console.log(data);
+          
+            $('#insert-title').val(data.title);
+            $('#insert-body').val(data.body);
+        });
 
+    })
 
 
     //not functional - make sure to come back and fix

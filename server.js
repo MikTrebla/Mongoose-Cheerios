@@ -7,12 +7,9 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 var mongoose = require("mongoose");
 
-// const mongojs = require('mongojs');
+
 const app = express();
 
-// const databaseUrl = 'mongoose';
-// const collections = ['scrapedData'];
-// const db = mongojs(databaseUrl, collections);
 const PORT = 3000;
 
 app.engine('handlebars', exphbs({
@@ -27,7 +24,11 @@ app.use(
 app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(logger("dev"));
-mongoose.connect("mongodb://localhost/mongoose-cheerios");
+
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
+// mongoose.connect("mongodb://localhost/mongoose-cheerios");
 const db = require("./models");
 
 
@@ -78,13 +79,31 @@ app.get('/scrape', (req, res) => {
     res.send('success');
 })
 
+app.get('/note/:id', (req, res) => {
+    db.Article.findOne({
+        _id: req.params.id
+    }).then(dbArticle => {
+        return db.Article.findOne({
+            _id: dbArticle.note
+        });
+
+    }).then(dbNote => {
+        console.log(dbNote);
+        res.send('Here you go');
+        // res.json(dbNote);
+    }).catch(err => {
+        res.json(err);
+    })
+})
 app.post('/note/:id', (req, res) => {
     db.Note.create(req.body).then(dbNote => {
         return db.Article.findOneAndUpdate({
-            id: req.params.id,
-            note: dbNote._id,
+            _id: req.params.id
+        }, {
+            note: dbNote._id
+        }, {
             new: true
-        })
+        });
     }).then(dbArticle => {
         res.send('note saved');
         // res.json(dbArticle);
