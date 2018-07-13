@@ -80,11 +80,12 @@ app.get('/scrape', (req, res) => {
 })
 
 app.get('/note/:id', (req, res) => {
-    db.Article.findOne({
+    db.Save.findOne({
             _id: req.params.id
         }).populate('note')
-        .then(dbArticle => {
-            res.json(dbArticle.note);
+        .then(dbSave => {
+            console.log(dbSave);
+            res.send(dbSave.note);
         }).catch(err => {
             res.json(err);
         })
@@ -92,7 +93,7 @@ app.get('/note/:id', (req, res) => {
 
 app.post('/note/:id', (req, res) => {
     db.Note.create(req.body).then(dbNote => {
-        return db.Article.findOneAndUpdate({
+        return db.Save.findOneAndUpdate({
             _id: req.params.id
         }, {
             note: dbNote._id
@@ -116,6 +117,7 @@ app.get('/savedarticles', (req, res) => {
         res.render('saved', dbSave);
     });
 });
+
 
 
 app.post('/api/savedarticles/:id', (req, res) => {

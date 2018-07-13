@@ -19,7 +19,7 @@ var SaveSchema = new Schema({
   },
   note: {
     type: Schema.Types.ObjectId,
-    ref: "Save"
+    ref: "Note"
   }
 });
 
